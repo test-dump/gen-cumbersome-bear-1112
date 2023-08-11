@@ -12,7 +12,7 @@ public class ProgramTest
         Console.SetOut(writer);
 
         Program.Main(new string[0]);
-        
+
         var output = writer.GetStringBuilder().ToString().Trim();
         Assert.Equal("Hello, World!", output);
     }
