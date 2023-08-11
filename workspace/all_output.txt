@@ -1,18 +1,6 @@
-Based on the specification, the functionality to display "Hello, World!" to the console is quite straightforward and wouldn't usually be tested, because writing a test for it could be more complex than the functionality itself.
+Starting with the entrypoint file, its name will be `Program.cs` where main execution of the program occurs.
 
-However, since we're asked to do so, the test becomes more of an exercise to demonstrate TDD in practice. Therefore, we will write a test to verify "Hello,World!" is produced by our program.
-
-**Project architecture:**
-
-Our project will consist of two core files:
-
-1. `Program.cs`: This is the main program file of our application, which would contain the Main function.
-
-2. `ProgramTest.cs:` This is the test file where we write our tests for the Main function of our console application.
-
-
-
-**Program.cs**
+Program.cs
 ```csharp
 using System;
 
@@ -27,13 +15,11 @@ namespace HelloWorld
     }
 }
 ```
+Briefly explaining the code above, `Main` is the method where the program begins execution. The `Console.WriteLine` is a method of the `Console` class under `System` Namespace. This line writes the string "Hello, World!" and inserts a new line, hence transferring the program control to the next line.
 
-We can't really test the `Main` method itself as it writes the message to the console and doesn't return anything. As a workaround, we'll write a test that checks System.Console.Out, which is a TextWriter, to ensure that the correct message was written to the standard output.
+Now we're creating `ProgramTest.cs` file where we will write our tests for the Main function of our console application.
 
-The testing framework we use in this case is `xUnit`, a free, open-source, community-focused unit testing tool for the .NET Framework.
-
-
-**ProgramTest.cs**
+ProgramTest.cs
 ```csharp
 using System;
 using System.IO;
@@ -49,20 +35,14 @@ public class ProgramTest
         Console.SetOut(writer);
 
         Program.Main(new string[0]);
-        
+
         var output = writer.GetStringBuilder().ToString().Trim();
         Assert.Equal("Hello, World!", output);
     }
 }
 ```
+In `ProgramTest.cs`, we have the `Main_Writes_HelloWorld` unit test defined. Explaning further, the unit test redirects the `Console.Out` to a `StringWriter` instance and then calls the `Program.Main` method which writes `Hello, World!` to the Console's standard output. The test then captures the output and verifies that it is equal to `Hello, World!`.
 
-The test `Main_Writes_HelloWorld` above does the following:
+Please double check if both files with their respective codes are present as per the architecture.
 
-- Sets the console's output to a `StringWriter`. This allows us to capture the output of `Console.WriteLine`.
-- Calls the `Program.Main()` method.
-- Gets the output written to the `StringWriter`.
-- Asserts that this output is equal to `"Hello, World!"`.
-
-This test will fail if `Program.Main()` writes anything other than `"Hello, World!"` (including leading or trailing white space) to the console.
-
-In conclusion, even with such a simple program like 'Hello, World', we can still apply Test Driven Development principles and write meaningful tests.
+Note: The double quotes around "Hello, World!" are mandatory in C# for String literals.
